@@ -1,0 +1,7 @@
+PROGRAMME_TITLE=My Greeting Programme
+PROMPT_ENTER_NAME=Please, enter your name on the box
+
+# This message contains a placeholder ({0})
+# which will be replaced at runtime by the
+# MessageFormat::format(str, obj...)
+GREETING=Greetings, {0}! Nice to meet you :)
