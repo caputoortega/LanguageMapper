@@ -71,16 +71,12 @@ public class LanguageMapper {
      **/
     public LanguageMapper(Language language, Class<? extends Enum<?>> template, String filePath) {
 
-
         this.language = language == null ? this.defaultLanguage : language;
+        if (template == null) throw new NullPointerException("template must not be null");
         this.template = template;
         this.filePath = filePath == null ? "assets/lang/" : filePath;
         
-        try {
-            map();
-        } catch (LanguageFileNotFoundException | LanguageKeyNotFoundException | InvalidLangKeyTemplateException e) {
-            throw new RuntimeException(e);
-        }
+        update();
 
     }
     
@@ -102,7 +98,6 @@ public class LanguageMapper {
         LanguageFile languageFile = new LanguageFile(this.language, this.filePath);
 
         if(!Set.of(this.template.getInterfaces()).contains(LangKeyTemplate.class)) throw new InvalidLangKeyTemplateException(this.template);
-
 
         // Retrieve all fields from the template class and iterate through them.
         for (Field templateField : this.template.getDeclaredFields()) {
@@ -144,11 +139,9 @@ public class LanguageMapper {
         try {
             return map();
         } catch (LanguageFileNotFoundException | LanguageKeyNotFoundException | InvalidLangKeyTemplateException e) {
-            e.printStackTrace();
             throw new RuntimeException(e);
         }
     }
-
 
     /**
      * 
